@@ -6,7 +6,8 @@ import { useUserContext } from "./UserContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { userEmail, setUserEmail, setUserName } = useUserContext();
+  const { userEmail, setUserEmail, setUserName, setLinkedin, setGithub } =
+    useUserContext();
   // State variables to hold validation errors
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -77,7 +78,7 @@ const LoginForm = () => {
         })
         .then((data) => {
           // Check if the response contains a 'username' field
-          if (data && data.username) {
+          if (data && data.details) {
             toast.success("Login successful!", {
               position: "top-right",
               autoClose: 3000,
@@ -91,7 +92,9 @@ const LoginForm = () => {
 
             // Manually navigate to the desired page after successful login
             setUserEmail(mailid);
-            setUserName(data.username); // Set the 'username' from the response
+            setUserName(data.details.username);
+            setLinkedin(data.details.linkedin);
+            setGithub(data.details.github);
             navigate("/workspace");
           }
         })

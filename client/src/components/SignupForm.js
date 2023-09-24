@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUserContext } from "./UserContext";
+import { useEventTrigger } from "./EventTriggerContext";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const SignupForm = () => {
   // State variables to hold validation errors
   const [validationErrors, setValidationErrors] = useState({});
   const { userEmail, userName, linkedin, github } = useUserContext();
+  const { setSignInTrigger } = useEventTrigger();
   function signupApiCall(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
@@ -104,6 +106,7 @@ const SignupForm = () => {
           });
           // Manually navigate to the desired page after successful signup
           navigate("/workspace");
+          setSignInTrigger(true);
         })
         .catch((error) => {
           console.error("API Error:", error);

@@ -4,6 +4,7 @@ import ProjeXFLow from "../images/projexflow.png";
 import { useUserContext } from "./UserContext";
 import { toast } from "react-toastify";
 import LoadingScreen from "./LoadingScreen";
+import UserProfile from "./UserProfile";
 
 const Nav = () => {
   const [navEffect, setNavEffect] = useState(false);
@@ -138,9 +139,12 @@ const Nav = () => {
               WorkspaceChatRoute ||
               (userEmail.length > 0 && AboutRoute) ||
               (userEmail.length > 0 && ContactRoute)) && (
-              <NavLink to="/">
-                <li onClick={handleLogout}>Logout</li>
-              </NavLink>
+              <Fragment>
+                <NavLink to="/">
+                  <li onClick={handleLogout}>Logout</li>
+                </NavLink>
+                <UserProfile />
+              </Fragment>
             )}
             {((userEmail.length === 0 && AboutRoute) ||
               (userEmail.length === 0 && ContactRoute)) && (

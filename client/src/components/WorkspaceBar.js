@@ -6,15 +6,18 @@ import { toast } from "react-toastify";
 import { useUserContext } from "./UserContext";
 import { useWsname } from "./WsnameContext";
 import { useEventTrigger } from "./EventTriggerContext";
+import SetProfileModal from "./SetProfileModal";
 
 const WorkspaceBar = () => {
   const [CreateModalOpen, setCreateModalOpen] = useState(false);
   const [joinModelOpen, setJoinModalOpen] = useState(false);
+  const [isProfileOpen, setProfileModalOpen] = useState(false);
   const { updateWsname } = useWsname();
   const [activeLink, setActiveLink] = useState(null); // State to track the active link
-  const { wsTrigger } = useEventTrigger();
+  const { wsTrigger, signInTrigger } = useEventTrigger();
   const workspaceListRef = useRef(null); // Reference to the workspace list container
   const [isScrollButtonRotated, setIsScrollButtonRotated] = useState(false);
+  const { userEmail, userName } = useUserContext();
 
   const openCreateModal = () => {
     setCreateModalOpen(true);
@@ -31,46 +34,18 @@ const WorkspaceBar = () => {
   const closeoJoinModal = () => {
     setJoinModalOpen(false);
   };
+  const openProfileModal = () => {
+    setProfileModalOpen(true);
+  };
 
-  const { userEmail } = useUserContext();
+  const closeProfileModal = () => {
+    setProfileModalOpen(false);
+  };
+
   const [workspaces, setWorkspaces] = useState({
     userWorkspaces: [],
     createdWorkspaces: [],
   });
-
-  useEffect(() => {
-    // Fetch workspaces from the /getws API
-    fetch("http://localhost:5000/getws", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mailid: userEmail }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setWorkspaces(data);
-
-        // After fetching data, check if scroll is needed
-        const scrollNeeded = isScrollable();
-        if (scrollNeeded) {
-          // You can trigger the scroll button to appear here if needed
-        }
-      })
-      .catch((error) => {
-        console.error("API Error:", error);
-        toast.error("Error fetching workspaces", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
-  }, [userEmail, wsTrigger]);
 
   // Function to handle link click and set the active link
   const handleLinkClick = (index) => {
@@ -126,6 +101,46 @@ const WorkspaceBar = () => {
       handleScroll(workspaceListRef, setIsScrollButtonRotated)
     );
   }, []);
+
+  useEffect(() => {
+    // Fetch workspaces from the /getws API
+    fetch("http://localhost:5000/getws", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ mailid: userEmail }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setWorkspaces(data);
+
+        // After fetching data, check if scroll is needed
+        const scrollNeeded = isScrollable();
+        if (scrollNeeded) {
+          // You can trigger the scroll button to appear here if needed
+        }
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        toast.error("Error fetching workspaces", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }, [userEmail, wsTrigger]);
+
+  useEffect(() => {
+    if (signInTrigger) {
+      openProfileModal();
+    }
+  }, [signInTrigger]);
 
   return (
     <Fragment>
@@ -207,6 +222,13 @@ const WorkspaceBar = () => {
       </div>
       <div>
         <JoinModal isOpen={joinModelOpen} onClose={closeoJoinModal}></JoinModal>
+      </div>
+      <div>
+        <SetProfileModal
+          isOpen={isProfileOpen}
+          onClose={closeProfileModal}
+          name={userName}
+        ></SetProfileModal>
       </div>
     </Fragment>
   );

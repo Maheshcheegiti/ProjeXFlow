@@ -4,6 +4,7 @@ const http = require("http");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const app = express();
+const multer = require("multer");
 const server = http.createServer(app); // Create an HTTP server
 const io = require("socket.io")(server); // Pass the server to Socket.io
 app.use(express.json());
@@ -58,6 +59,7 @@ const User = mongoose.model("users", {
   password: String,
   linkedin: String,
   github: String,
+  profilePicture: String,
   terms: Boolean,
 });
 
@@ -131,9 +133,7 @@ app.post("/login", async (req, res) => {
 
     if (passwordMatch) {
       // Passwords match, navigate to the workspace
-      res
-        .status(200)
-        .json({ message: "Login successful", username: user.username });
+      res.status(200).json({ message: "Login successful", details: user });
     } else {
       // Passwords do not match
       res.status(402).json({ error: "Invalid credentials" });
@@ -514,6 +514,68 @@ app.post("/getchat", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "profile_pictures"); // Set the destination folder
+  },
+  filename: (req, file, cb) => {
+    const filename = `${file.originalname}`;
+    cb(null, filename);
+  },
+});
+
+const upload = multer({ storage });
+
+// Endpoint for uploading a profile picture
+app.post(
+  "/setprofilepicture",
+  upload.single("profilePicture"), // Change this field name to match your HTML form field
+  async (req, res) => {
+    try {
+      const user = await User.findOne({ mailid: email });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      user.profilePicture = req.file.filename;
+      await user.save();
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Upload Error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
+app.post("/getprofilepicture", async (req, res) => {
+  try {
+    const email = req.body.email; // Assuming you send the email in the request body
+
+    const user = await User.findOne({ mailid: email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Assuming you have a 'profilePicture' field in your User model
+    const profilePicture = user.profilePicture;
+
+    // Check if the user has a profile picture set
+    if (!profilePicture) {
+      return res
+        .status(404)
+        .json({ error: "Profile picture not found for this user" });
+    }
+
+    // Send the profile picture file as a response
+    res.sendFile(`${__dirname}/profile_pictures/${profilePicture}`);
+  } catch (error) {
+    console.error("Profile Picture Retrieval Error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
