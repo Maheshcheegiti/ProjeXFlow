@@ -52,16 +52,7 @@ db.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
-// Define a Mongoose model for the user data
-const User = mongoose.model("users", {
-  username: String,
-  mailid: String,
-  password: String,
-  linkedin: String,
-  github: String,
-  profilePicture: String,
-  terms: Boolean,
-});
+const User = require("./models/user");
 
 app.post("/signup", async (req, res) => {
   try {
@@ -140,6 +131,131 @@ app.post("/login", async (req, res) => {
     }
   } catch (error) {
     console.error("Error during login:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Update username
+app.post("/changeusername", async (req, res) => {
+  try {
+    const { mailid, password, newUsername } = req.body;
+
+    // Find the user by mailid
+    const user = await User.findOne({ mailid });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not registered" });
+    }
+
+    // Compare the provided password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, update the username
+      user.username = newUsername;
+      await user.save();
+
+      res.status(200).json({ message: "Username updated successfully" });
+    } else {
+      // Passwords do not match
+      res.status(402).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error during username change:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Update LinkedIn
+app.post("/changelinkedin", async (req, res) => {
+  try {
+    const { mailid, password, newLinkedIn } = req.body;
+
+    // Find the user by mailid
+    const user = await User.findOne({ mailid });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not registered" });
+    }
+
+    // Compare the provided password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, update the LinkedIn
+      user.linkedin = newLinkedIn;
+      await user.save();
+
+      res.status(200).json({ message: "LinkedIn updated successfully" });
+    } else {
+      // Passwords do not match
+      res.status(402).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error during LinkedIn change:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Update GitHub
+app.post("/changegithub", async (req, res) => {
+  try {
+    const { mailid, password, newGitHub } = req.body;
+
+    // Find the user by mailid
+    const user = await User.findOne({ mailid });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not registered" });
+    }
+
+    // Compare the provided password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, update the GitHub
+      user.github = newGitHub;
+      await user.save();
+
+      res.status(200).json({ message: "GitHub updated successfully" });
+    } else {
+      // Passwords do not match
+      res.status(402).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error during GitHub change:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Update password
+app.post("/changepassword", async (req, res) => {
+  try {
+    const { mailid, currentPassword, newPassword } = req.body;
+
+    // Find the user by mailid
+    const user = await User.findOne({ mailid });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not registered" });
+    }
+
+    // Compare the provided current password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, hash and update the new password
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedNewPassword;
+      await user.save();
+
+      res.status(200).json({ message: "Password updated successfully" });
+    } else {
+      // Passwords do not match
+      res.status(402).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error during password change:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -534,6 +650,7 @@ app.post(
   "/setprofilepicture",
   upload.single("profilePicture"), // Change this field name to match your HTML form field
   async (req, res) => {
+    const email = req.body.mailid;
     try {
       const user = await User.findOne({ mailid: email });
 

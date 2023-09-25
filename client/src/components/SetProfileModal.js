@@ -1,21 +1,22 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useEventTrigger } from "./EventTriggerContext";
+import { useUserContext } from "./UserContext";
 
-const SetProfileModal = ({ isOpen, onClose, name }) => {
+const SetProfileModal = ({ isOpen, onClose, name, image }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [email, setEmail] = useState(""); // Add email state
   const fileInputRef = React.createRef();
-  const { signInTrigger, setSignInTrigger } = useEventTrigger();
+  const { profileTrigger, setSignInTrigger, setProfileTrigger } =
+    useEventTrigger();
+  const { userEmail } = useUserContext();
 
   useEffect(() => {
-    console.log(signInTrigger);
+    setImageUrl(image);
     return () => {
       setSignInTrigger(false);
-      console.log(signInTrigger);
     };
-  }, []);
+  }, [setSignInTrigger, image]);
 
   if (!isOpen) return null;
 
@@ -35,7 +36,7 @@ const SetProfileModal = ({ isOpen, onClose, name }) => {
   };
 
   const handleUpload = () => {
-    if (selectedFile && email) {
+    if (selectedFile && userEmail) {
       // Check that email and selectedFile are not empty
       const formData = new FormData();
 
@@ -46,9 +47,9 @@ const SetProfileModal = ({ isOpen, onClose, name }) => {
       formData.append(
         "profilePicture",
         selectedFile,
-        `${email}.${fileExtension}`
+        `${userEmail}.${fileExtension}`
       );
-      formData.append("mailid", email); // Use "mailid" consistent with your server-side code
+      formData.append("mailid", userEmail); // Use "mailid" consistent with your server-side code
 
       fetch("http://localhost:5000/setprofilepicture", {
         method: "POST",
@@ -58,6 +59,7 @@ const SetProfileModal = ({ isOpen, onClose, name }) => {
         .then((data) => {
           if (data.success) {
             toast.success("Profile picture uploaded successfully");
+            setProfileTrigger(!profileTrigger);
             onClose();
           } else {
             toast.error(data.error);
@@ -99,12 +101,6 @@ const SetProfileModal = ({ isOpen, onClose, name }) => {
             Welcome, <b>{name}</b>! It's great to have you here. To personalize
             your account, you can upload a profile picture.
           </p>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
           {imageUrl && (
             <Fragment>
               <button className="btn" onClick={handleUpload}>

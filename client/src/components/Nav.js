@@ -126,31 +126,31 @@ const Nav = () => {
                 )}
               </span>
             </span>
-            <NavLink to="/workspace">
-              <li>Workspace</li>
-            </NavLink>
-            <NavLink to="/aboutus">
-              <li>AboutUs</li>
-            </NavLink>
-            <NavLink to="/contact">
-              <li>Contact</li>
-            </NavLink>
+            <li>
+              <NavLink to="/workspace">Workspace</NavLink>
+            </li>
+            <li>
+              <NavLink to="/aboutus">AboutUs</NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact">Contact</NavLink>
+            </li>
             {(WorkspaceRoute ||
               WorkspaceChatRoute ||
               (userEmail.length > 0 && AboutRoute) ||
               (userEmail.length > 0 && ContactRoute)) && (
               <Fragment>
-                <NavLink to="/">
-                  <li onClick={handleLogout}>Logout</li>
-                </NavLink>
+                <li onClick={handleLogout}>
+                  <NavLink to="/">Logout</NavLink>
+                </li>
                 <UserProfile />
               </Fragment>
             )}
             {((userEmail.length === 0 && AboutRoute) ||
               (userEmail.length === 0 && ContactRoute)) && (
-              <NavLink to="/">
-                <li>Login</li>
-              </NavLink>
+              <li>
+                <NavLink to="/">Login</NavLink>
+              </li>
             )}
           </ul>
         </div>

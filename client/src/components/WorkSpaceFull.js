@@ -216,9 +216,16 @@ const WorkSpaceFull = () => {
       if (chatContainerRef.current) {
         const { scrollTop, scrollHeight, clientHeight } =
           chatContainerRef.current;
+        if (scrollTop === 0) {
+          setIsScrollButtonRotatedChats(false);
+        }
         const maxScroll = scrollHeight - clientHeight;
         const scrollThreshold = 300;
-        setIsChatScrolledUp(maxScroll - scrollTop > scrollThreshold);
+        if (maxScroll - scrollTop > scrollThreshold) {
+          setIsChatScrolledUp(true);
+        } else {
+          setIsChatScrolledUp(false);
+        }
       }
     };
 

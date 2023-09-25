@@ -27,6 +27,7 @@
     --sky-blue: skyblue;
     --water-before:rgba(255,255,255,.7);
     --water-after: rgba(255,255,255,.3);
+    --light-grey-color-opacity: rgba(188, 188, 188, 0.475);
 }
 
 /* dark mode */
@@ -47,6 +48,7 @@
     --sky-blue: rgb(218, 220, 221);
     --water-before:rgba(108, 106, 106, 0.7);
     --water-after: rgba(37, 37, 37, 0.3);
+    --light-grey-color-opacity: rgba(188, 188, 188, 0.475);
 }
   
 body{
@@ -74,7 +76,14 @@ p{
     box-shadow: 0 3px 3px var(--light-shadow-color);
 }
 
-.nav ul li {
+.nav ul{
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+.nav ul li a{
+    text-decoration: none;
+    color: var(--black-color);
     display: inline-flex;
     background-color: var(--yellow-color);
     height: 40px;
@@ -101,12 +110,12 @@ p{
     transform:rotateY(180deg);
 }
 
-.nav ul li:hover {
+.nav ul li a:hover {
     background-color: var(--dark-yellow-color);
     box-shadow: 2px 2px 2px var(--dark-shadow-color);
 }
 
-.nav ul .active li{
+.nav ul li .active{
     background-color: var(--dark-blue-color);
     color:var(--white-color);
 }
@@ -292,6 +301,9 @@ p{
     clear: both;
 }
 
+label.btn{
+    display: inline-flex;
+}
 .btn {
     background-color: var(--yellow-color);
     height: 40px;
@@ -909,4 +921,128 @@ background-color: var(--white-color);
     justify-content: center;
     font-size: 50px;
     background-color: var(--yellow-color);
+}
+
+div.profile-details{
+    float: right;
+    height: 40px;
+    width: 40px;
+    margin: 5px 20px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px var(--light-shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.profile-details div, .profile-details-span div:nth-child(1){
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-details img, .profile-details div, .profile-details-span img, .profile-details-span div:nth-child(1){
+    height: 40px;
+    width: 40px;
+    border: 3px solid var(--black-color);
+    border-radius: 50%;
+    transition: 0.5s;
+}
+.profile-details img:hover, .profile-details div:hover{
+    border-color: var(--dark-yellow-color);
+}
+
+.profile-details-span{
+    position: absolute;
+    right: 130px;
+    top: 80px;
+    background-color: var(--white-color);
+    color: var(--black-color);
+    border-radius: 20px;
+    width: 320px;
+    box-shadow: 3px 3px 3px var(--dark-shadow-color);
+    opacity: 0;
+    height: 0px;
+    overflow: hidden;
+    transition: opacity 0.3s ease, height 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: -5;
+}
+
+.profile-details-span.open {
+    opacity: 1;
+    z-index: 3;
+    height: 480px;
+    padding: 50px;
+    border: 3px solid var(--yellow-color);
+}
+
+.profile-details-span img,.profile-details-span div:nth-child(1){
+    height: 100px;
+    width: 100px;
+    border: 3px solid var(--black-color);
+}
+
+.profile-details-span div:nth-child(1){
+    font-size: 50px;
+}
+
+.profile-user-details .span-block{
+    display: block;
+    margin: 20px 0;
+    width: 250px;
+    font-size: 18px;
+    color: var(--black-color);
+    border-bottom: 2px solid var(--black-color);
+}
+
+.profile-user-details .span-block a{
+    text-decoration: none;
+    color: var(--black-color);
+    transition: all 0.5s;
+}
+
+.profile-user-details .span-block a:hover, .profile-user-details .span-block .last:hover{
+    color: var(--dark-yellow-color);
+}
+
+.profile-user-details .span-block .first{
+    width: 15%;
+}
+.profile-user-details .span-block span{
+    display: inline-block;
+    width: 73%;
+}
+
+.profile-user-details .span-block .last{
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.camera{
+    position: absolute;
+    z-index: 1;
+    top: 56px;
+    font-size: 25px;
+    color: var(--black-color);
+    background-color: var(--light-grey-color-opacity);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.profile-details-span .camera:hover{
+    opacity: 1;
 }

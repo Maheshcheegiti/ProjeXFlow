@@ -9,6 +9,7 @@ export const EventTriggerProvider = ({ children }) => {
   const [teamTrigger, setTeamTrigger] = useState(false);
   const [taskTrigger, setTaskTrigger] = useState(false);
   const [signInTrigger, setSignInTrigger] = useState(false);
+  const [profileTrigger, setProfileTrigger] = useState(false);
 
   return (
     <EventTriggerContext.Provider
@@ -21,6 +22,8 @@ export const EventTriggerProvider = ({ children }) => {
         setTaskTrigger,
         signInTrigger,
         setSignInTrigger,
+        profileTrigger,
+        setProfileTrigger,
       }}
     >
       {children}
