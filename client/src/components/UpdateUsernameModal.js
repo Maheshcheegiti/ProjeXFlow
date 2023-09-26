@@ -124,7 +124,7 @@ const UpdateUsernameModal = ({ isOpen, onClose }) => {
         <div className="modal form-section">
           <h2>Change your Username</h2>
           <p>Provide below details to change your username.</p>
-          <form>
+          <form onSubmit={changeusernameApiCall}>
             <div className="inputs">
               <label htmlFor="username">
                 <i className="fa-solid fa-user"></i>
@@ -155,18 +155,13 @@ const UpdateUsernameModal = ({ isOpen, onClose }) => {
               {userName} to change your username, please enter your new desired
               username and your current password.
             </p>
+            <button className="close-button btn" type="submit">
+              <i className="fa-solid fa-pencil"></i> Change
+            </button>
+            <button className="close-button btn" onClick={onClose}>
+              <i className="fa-regular fa-circle-xmark"></i> Cancel
+            </button>
           </form>
-
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={changeusernameApiCall}
-          >
-            <i className="fa-solid fa-pencil"></i> Change
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

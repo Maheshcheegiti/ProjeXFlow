@@ -120,7 +120,7 @@ const CreateModal = ({ isOpen, onClose }) => {
         <div className="modal form-section">
           <h2>Create a new workspace</h2>
           <p>Provide below details to create a new workspace.</p>
-          <form>
+          <form onSubmit={createwsApiCall}>
             <div className="inputs">
               <label htmlFor="ws-name">
                 <i className="fa-regular fa-square-plus"></i>
@@ -158,17 +158,13 @@ const CreateModal = ({ isOpen, onClose }) => {
               />
             </div>
             <div className="clear"></div>
+            <button className="close-button btn" type="submit">
+              <i className="fa-regular fa-square-plus"></i> Create
+            </button>
+            <button className="close-button btn" onClick={onClose}>
+              <i className="fa-regular fa-circle-xmark"></i> Cancel
+            </button>
           </form>
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={createwsApiCall}
-          >
-            <i className="fa-regular fa-square-plus"></i> Create
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

@@ -125,7 +125,7 @@ const UpdateGithubModal = ({ isOpen, onClose }) => {
         <div className="modal form-section">
           <h2>Change your GitHub URL</h2>
           <p>Provide below details to change your GitHub URL.</p>
-          <form>
+          <form onSubmit={changeGithubApiCall}>
             <div className="inputs">
               <label htmlFor="github">
                 <i class="fa-brands fa-github"></i>
@@ -151,22 +151,18 @@ const UpdateGithubModal = ({ isOpen, onClose }) => {
                 onChange={handleInputChange}
               />
               <div className="clear"></div>
+              <p>
+                {userName} to change your GitHub URL, please enter your new
+                desired GitHub URL and your current password.
+              </p>
+              <button className="close-button btn" type="submit">
+                <i className="fa-solid fa-pencil"></i> Change
+              </button>
+              <button className="close-button btn" onClick={onClose}>
+                <i className="fa-regular fa-circle-xmark"></i> Cancel
+              </button>
             </div>
           </form>
-          <p>
-            {userName} to change your GitHub URL, please enter your new desired
-            GitHub URL and your current password.
-          </p>
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={changeGithubApiCall}
-          >
-            <i className="fa-solid fa-pencil"></i> Change
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEventTrigger } from "./EventTriggerContext";
 
 const SetTaskModal = ({ isOpen, onClose, details }) => {
-  const [setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
   const { taskTrigger, setTaskTrigger } = useEventTrigger();
 
   const [formData, setFormData] = useState({
@@ -104,7 +104,7 @@ const SetTaskModal = ({ isOpen, onClose, details }) => {
             if you completed your task then type <b>{details.TaskName}</b> below
             to confirm
           </p>
-          <form>
+          <form onSubmit={setTaskApiCall}>
             <div className="inputs">
               <label htmlFor="task-name">
                 <i className="fa-solid fa-triangle-exclamation"></i>
@@ -124,17 +124,13 @@ const SetTaskModal = ({ isOpen, onClose, details }) => {
               </p>
             </div>
             <div className="clear"></div>
+            <button className="close-button btn" type="submit">
+              <i className="fa-solid fa-circle-check"></i> Done
+            </button>
+            <button className="close-button btn" onClick={onClose}>
+              <i className="fa-regular fa-circle-xmark"></i> Cancel
+            </button>
           </form>
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={setTaskApiCall}
-          >
-            <i className="fa-solid fa-circle-check"></i> Done
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

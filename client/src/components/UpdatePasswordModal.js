@@ -120,7 +120,7 @@ const UpdatePasswordModal = ({ isOpen, onClose }) => {
         <div className="modal form-section">
           <h2>Change your Password</h2>
           <p>Provide below details to change your password.</p>
-          <form>
+          <form onSubmit={changePasswordApiCall}>
             <div className="inputs">
               <label htmlFor="currentPassword">
                 <i className="fa-solid fa-lock"></i>
@@ -162,18 +162,14 @@ const UpdatePasswordModal = ({ isOpen, onClose }) => {
                 {userName} to update password fill the above fields with current
                 and new password
               </p>
+              <button className="close-button btn" type="submit">
+                <i className="fa-solid fa-pencil"></i> Change
+              </button>
+              <button className="close-button btn" onClick={onClose}>
+                <i className="fa-regular fa-circle-xmark"></i> Cancel
+              </button>
             </div>
           </form>
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={changePasswordApiCall}
-          >
-            <i className="fa-solid fa-pencil"></i> Change
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

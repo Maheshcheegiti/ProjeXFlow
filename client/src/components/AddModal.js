@@ -113,7 +113,7 @@ const AddModal = ({ isOpen, onClose, details }) => {
           <p>
             Provide below details to assign task to <b>{details.Name}</b>
           </p>
-          <form>
+          <form onSubmit={assignTaskApiCall}>
             <div className="inputs">
               <label htmlFor="task-name">
                 <i className="fa-regular fa-square-plus"></i>
@@ -158,17 +158,13 @@ const AddModal = ({ isOpen, onClose, details }) => {
               )}
             </div>
             <div className="clear"></div>
+            <button className="close-button btn" type="submit">
+              <i className="fa-regular fa-square-plus"></i> Assign
+            </button>
+            <button className="close-button btn" onClick={onClose}>
+              <i className="fa-regular fa-circle-xmark"></i> Cancel
+            </button>
           </form>
-          <button
-            className="close-button btn"
-            type="submit"
-            onClick={assignTaskApiCall}
-          >
-            <i className="fa-regular fa-square-plus"></i> Assign
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>

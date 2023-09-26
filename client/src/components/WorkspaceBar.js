@@ -47,9 +47,18 @@ const WorkspaceBar = () => {
     createdWorkspaces: [],
   });
 
+  useEffect(() => {
+    const savedActiveLink = localStorage.getItem("activeLink");
+    if (savedActiveLink) {
+      updateWsname(savedActiveLink.split("-")[1]);
+      setActiveLink(savedActiveLink);
+    }
+  }, []);
+
   // Function to handle link click and set the active link
   const handleLinkClick = (index) => {
     setActiveLink(index);
+    localStorage.setItem("activeLink", index);
   };
 
   const scrollWorkspaceListDown = () => {

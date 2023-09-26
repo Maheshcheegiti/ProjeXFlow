@@ -131,7 +131,7 @@ const UserProfile = () => {
           <div onClick={handleProfileClick}>{userName.charAt(0)}</div>
         )}
         <div className="camera" onClick={openProfileModal}>
-          <i class="fa-solid fa-camera"></i>
+          <i className="fa-solid fa-camera"></i>
         </div>
         <div className="profile-user-details">
           <span className="span-block">

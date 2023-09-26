@@ -133,7 +133,7 @@ const LoginForm = () => {
               <i className="fa-solid fa-lock"></i>
             </label>
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="Password"

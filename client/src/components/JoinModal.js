@@ -155,7 +155,7 @@ const JoinModal = ({ isOpen, onClose }) => {
         <div className="modal form-section">
           <h2>Join in a workspace</h2>
           <p>Provide below details to join in a workspace.</p>
-          <form action="">
+          <form onSubmit={joinws}>
             <div className="inputs">
               <label htmlFor="ws-name">
                 <i className="fa-regular fa-square-plus"></i>
@@ -198,13 +198,13 @@ const JoinModal = ({ isOpen, onClose }) => {
               />
             </div>
             <div className="clear"></div>
+            <button className="close-button btn" type="submit">
+              <i className="fa-solid fa-arrow-right-to-bracket"></i> Join
+            </button>
+            <button className="close-button btn" onClick={onClose}>
+              <i className="fa-regular fa-circle-xmark"></i> Cancel
+            </button>
           </form>
-          <button className="close-button btn" onClick={joinws}>
-            <i className="fa-solid fa-arrow-right-to-bracket"></i> Join
-          </button>
-          <button className="close-button btn" onClick={onClose}>
-            <i className="fa-regular fa-circle-xmark"></i> Cancel
-          </button>
         </div>
       </div>
     </Fragment>
