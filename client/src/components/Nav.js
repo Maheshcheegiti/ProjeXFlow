@@ -62,6 +62,30 @@ const Nav = () => {
   useEffect(() => {
     if (WorkspaceRoute || WorkspaceChatRoute) {
       seIsStopScroll(true);
+      fetch("http://localhost:5000/checkmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mailid: userEmail,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            if (response.status === 401) {
+              return;
+            } else {
+              setUserEmail("");
+            }
+          } else {
+            setUserEmail("");
+          }
+        })
+        .catch((error) => {
+          console.error("API Error:", error);
+          setUserEmail("");
+        });
       if (userEmail.length === 0) {
         window.scrollTo(0, 0);
         document.body.height = "100vh";
@@ -92,19 +116,42 @@ const Nav = () => {
       document.body.style.height = "auto";
       document.body.style.overflow = "visible";
     };
-  }, [WorkspaceRoute, WorkspaceChatRoute, userEmail, Navigate]);
+  }, [WorkspaceRoute, WorkspaceChatRoute, userEmail, Navigate, setUserEmail]);
+
+  useEffect(() => {
+    if (AboutRoute || ContactRoute) {
+      fetch("http://localhost:5000/checkmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mailid: userEmail,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            if (response.status === 401) {
+              return;
+            } else {
+              setUserEmail("");
+            }
+          } else {
+            setUserEmail("");
+          }
+        })
+        .catch((error) => {
+          console.error("API Error:", error);
+          setUserEmail("");
+        });
+    }
+  }, [AboutRoute, ContactRoute, setUserEmail, userEmail]);
 
   const handleLogout = () => {
-    // Clear userEmail and other user-related data
     setUserEmail("");
-    // You can clear other user-related data (e.g., userName, linkedin, github) here as well
-
-    // Clear localStorage except for the theme
     const savedTheme = localStorage.getItem("theme");
     localStorage.clear();
     localStorage.setItem("theme", savedTheme);
-
-    // Redirect the user to the home page or another appropriate route
     Navigate("/");
   };
 
@@ -148,7 +195,8 @@ const Nav = () => {
               </Fragment>
             )}
             {((userEmail.length === 0 && AboutRoute) ||
-              (userEmail.length === 0 && ContactRoute) ||(ForgotPasswordRoute)) && (
+              (userEmail.length === 0 && ContactRoute) ||
+              ForgotPasswordRoute) && (
               <li>
                 <NavLink to="/">Login</NavLink>
               </li>

@@ -219,6 +219,7 @@ p{
     padding: 0px 30px;
     padding-top: 70px;
     padding-bottom: 20px;
+    animation: float 2s ease-in-out infinite alternate;
 }
 
 .project-image img {
