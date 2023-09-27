@@ -39,14 +39,20 @@ exports.Teams = async (req, res) => {
       };
       return result;
     }, {});
+
     let wsmax = 0;
     if (createdWorkspaces.length > 0) {
       wsmax = createdWorkspaces[0].maxmem;
     }
 
+    // Find the owner's mailid
+    const owner =
+      createdWorkspaces.length > 0 ? createdWorkspaces[0].owner : null;
+
     res.status(200).json({
       userInformation: userInformation,
       wsmax: wsmax,
+      owner: owner, // Add the owner field to the response
     });
   } catch (error) {
     console.error("Error:", error);

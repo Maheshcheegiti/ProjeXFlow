@@ -17,6 +17,7 @@ const WorkSpaceFull = () => {
   const { wsname } = useWsname();
   const [tasks, setTasks] = useState([]);
   const [teamMax, setTeamMax] = useState(0);
+  const [teamOwner, setTeamOwner] = useState("");
   const { userEmail, userName } = useUserContext();
   const [TaskName, setTaskName] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -49,6 +50,7 @@ const WorkSpaceFull = () => {
       .then((data) => {
         setTeamMembers(data.userInformation);
         setTeamMax(data.wsmax);
+        setTeamOwner(data.owner);
         setIsScrollButtonRotatedTeams(false);
       })
       .catch((error) => {
@@ -334,37 +336,49 @@ const WorkSpaceFull = () => {
             </div>
             <div className="ws-team-list" ref={teamListContainerRef}>
               <ul className="team-list">
-                {Object.entries(teamMembers).map(([email, memberInfo]) => (
-                  <li key={email}>
-                    <ul className="person-list">
-                      <li>{memberInfo.username}</li>
-                      <i
-                        onClick={() => {
-                          openAddModal(email, memberInfo.username);
-                        }}
-                        className={
-                          memberInfo.isOwner
-                            ? "fa-regular fa-circle-user"
-                            : "fa-solid fa-plus"
-                        }
-                      ></i>
-                      <Link
-                        to={memberInfo.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="fa-brands fa-linkedin"></i>
-                      </Link>
-                      <Link
-                        to={memberInfo.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="fa-brands fa-github"></i>
-                      </Link>
-                    </ul>
-                  </li>
-                ))}
+                {Object.entries(teamMembers)
+                  .reverse()
+                  .map(([email, memberInfo]) => (
+                    <li key={email}>
+                      <ul className="person-list">
+                        <li>{memberInfo.username}</li>
+                        {teamOwner === userEmail ? (
+                          <i
+                            onClick={() => {
+                              openAddModal(email, memberInfo.username);
+                            }}
+                            className={
+                              memberInfo.isOwner
+                                ? "fa-regular fa-circle-user"
+                                : "fa-solid fa-plus"
+                            }
+                          ></i>
+                        ) : (
+                          <i
+                            className={
+                              memberInfo.isOwner
+                                ? "fa-regular fa-circle-user icon-disabled"
+                                : "fa-solid fa-plus icon-disabled2"
+                            }
+                          ></i>
+                        )}
+                        <Link
+                          to={memberInfo.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="fa-brands fa-linkedin"></i>
+                        </Link>
+                        <Link
+                          to={memberInfo.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="fa-brands fa-github"></i>
+                        </Link>
+                      </ul>
+                    </li>
+                  ))}
               </ul>
               <section
                 className={`scroll-down ws ${
