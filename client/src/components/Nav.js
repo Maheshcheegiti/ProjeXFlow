@@ -17,6 +17,7 @@ const Nav = () => {
   const SignupNextRoute = location.pathname === "/signupnext";
   const WorkspaceRoute = location.pathname === "/workspace";
   const WorkspaceChatRoute = location.pathname === "/workspace/chat";
+  const ForgotPasswordRoute = location.pathname === "/forgot_password";
   const AboutRoute = location.pathname === "/aboutus";
   const ContactRoute = location.pathname === "/contact";
   const navClass = navEffect ? "nav nav-effect" : "nav";
@@ -147,7 +148,7 @@ const Nav = () => {
               </Fragment>
             )}
             {((userEmail.length === 0 && AboutRoute) ||
-              (userEmail.length === 0 && ContactRoute)) && (
+              (userEmail.length === 0 && ContactRoute) ||(ForgotPasswordRoute)) && (
               <li>
                 <NavLink to="/">Login</NavLink>
               </li>

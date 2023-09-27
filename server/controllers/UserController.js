@@ -71,9 +71,11 @@ exports.checkMail = (req, res) => {
     .then((user) => {
       if (user) {
         // User with the provided mailid not found
-        return res.status(401).json({ error: "User already Exists" });
+        return res
+          .status(401)
+          .json({ error: "User already Exists", username: user.username });
       } else {
-        res.status(200).json({ message: "Login successful" });
+        res.status(200).json({ message: "User not Exists" });
       }
     })
     .catch((error) => {
@@ -197,6 +199,29 @@ exports.changePassword = async (req, res) => {
       // Passwords do not match
       res.status(402).json({ error: "Invalid credentials" });
     }
+  } catch (error) {
+    console.error("Error during password change:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.setNewPassword = async (req, res) => {
+  try {
+    const { mailid, newPassword } = req.body;
+
+    // Find the user by mailid
+    const user = await User.findOne({ mailid });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not registered" });
+    }
+
+    // Hash and set the new password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error("Error during password change:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -10,5 +10,6 @@ router.post("/changeusername", userController.changeUserName);
 router.post("/changelinkedin", userController.changeLinkedIn);
 router.post("/changegithub", userController.changeGitHub);
 router.post("/changepassword", userController.changePassword);
+router.post("/newpassword", userController.setNewPassword);
 
 module.exports = router;
