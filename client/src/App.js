@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import SignUpNext from "./components/SignUpNext";
+import ForgotPassword from "./components/ForgotPassword";
 import WorkspaceEmpty from "./components/WorkspaceEmpty";
 import WorkSpaceFull from "./components/WorkSpaceFull";
 import AboutUs from "./components/AboutUs";
@@ -33,6 +34,11 @@ const App = () => {
                     element={<SignUpNext />}
                   ></Route>
                   <Route exact path="/signup" element={<SignupForm />}></Route>
+                  <Route
+                    exact
+                    path="/forgot_password"
+                    element={<ForgotPassword />}
+                  ></Route>
                 </Route>
                 <Route exact path="/workspace" element={<Workspace />}>
                   <Route

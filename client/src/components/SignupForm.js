@@ -178,12 +178,12 @@ const SignupForm = () => {
                 <Link to="/termsandconditions">Terms & Conditions</Link>
               </label>
             </div>
-            <Link to="/signupnext">
-              <button className="btn">GoBack</button>
-            </Link>
             <button className="btn" type="submit">
               Signup
             </button>
+            <Link to="/signupnext">
+              <button className="btn">GoBack</button>
+            </Link>
           </div>
           <div className="underline"></div>
           <div className="signup-text">

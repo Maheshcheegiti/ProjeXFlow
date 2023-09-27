@@ -12,7 +12,7 @@ const Footer = () => {
         </div>
         <div className="footer-tags">
           <ul>
-            <Link to="/">
+            <Link to="/workspace">
               <li>Workspace</li>
             </Link>
             <Link to="/aboutus">
