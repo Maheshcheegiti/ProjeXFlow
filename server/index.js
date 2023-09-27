@@ -110,16 +110,14 @@ app.post("/getprofilepicture", async (req, res) => {
   }
 });
 
-const CLIENT_ID =
-  "84636763252-q9i3okmdboabgeilnatn07aj38ks6sh6.apps.googleusercontent.com";
-const CLEINT_SECRET = "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";
-const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-const REFRESH_TOKEN =
-  "1//04OXpjxSKC3hACgYIARAAGAQSNwF-L9IriUrDh5duRkR6IRtpRjySPCSgyEsXf964KJLFl1FVwcS9Dk6_m_bw98ThJecOc4YT8EQ";
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
-  CLEINT_SECRET,
+  CLIENT_SECRET,
   REDIRECT_URI
 );
 
@@ -161,7 +159,7 @@ async function sendMail(email) {
         type: "OAuth2",
         user: "projexflow@gmail.com",
         clientId: CLIENT_ID,
-        clientSecret: CLEINT_SECRET,
+        clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken: accessToken,
       },
@@ -257,7 +255,7 @@ app.post("/checkotp", async (req, res) => {
 
     if (!otpMapEntry) {
       // If the OTP entry doesn't exist, it has expired or is invalid
-      return res.status(404).json({ error: "OTP not found or has expired" });
+      return res.status(404).json({ error: "OTP has expired or not found" });
     }
 
     if (otpMapEntry.otp === otp) {
