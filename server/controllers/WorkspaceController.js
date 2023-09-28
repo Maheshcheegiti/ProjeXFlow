@@ -57,6 +57,22 @@ exports.getWsStatus = (req, res) => {
     });
 };
 
+exports.shareWs = (req, res) => {
+  const { wsname } = req.body;
+  Workspace.findOne({ wsname })
+    .then((workspace) => {
+      if (workspace) {
+        res.status(200).json(workspace);
+      } else {
+        res.status(404).json({ message: "Workspace not found" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    });
+};
+
 exports.joinWS = (req, res) => {
   const { owner, wsname, wspwd } = req.body;
   const mailid = owner;
@@ -150,6 +166,3 @@ exports.getWS = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
-
