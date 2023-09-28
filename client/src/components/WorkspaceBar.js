@@ -53,7 +53,7 @@ const WorkspaceBar = () => {
       updateWsname(savedActiveLink.split("-")[1]);
       setActiveLink(savedActiveLink);
     }
-  }, []);
+  }, [updateWsname]);
 
   // Function to handle link click and set the active link
   const handleLinkClick = (index) => {
