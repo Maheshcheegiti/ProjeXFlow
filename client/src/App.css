@@ -511,6 +511,24 @@ input.number-input-join {
     text-align: center;
     box-shadow: 2px 2px 2px var(--light-shadow-color);
     transition: all 0.5s;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-solid.fa-share-from-square{
+    position: absolute;
+    left: 75%;
+    transition: 0.5s all;
+    color: var(--black-color);
+    font-weight: 100;
+}
+.fa-solid.fa-share-from-square:hover{
+    color: var(--dark-yellow-color);
+}
+
+.ws-list-items.created.active .fa-solid.fa-share-from-square:hover{
+    color: var(--white-color);
 }
 
 .ws-list-items li:hover{
@@ -1081,7 +1099,7 @@ div.profile-details{
     display: inline-block;
     height: 13px;
     width: 13px;
-    border: 2px solid var(--black-color);
+    border: 2px solid var(--black-color) ;
     border-left: 2px solid var(--white-color);
     animation: rotate 1s infinite linear;
     border-radius: 50%;
@@ -1091,9 +1109,70 @@ div.profile-details{
 
 @keyframes rotate {
     0%{
-        transform: rotate(0deg);
+        transform: rotateZ(0deg);
     }
     100%{
-        transform: rotate(360deg);
+        transform: rotateZ(360deg);
     }
+}
+
+.workspace-modal .inputs{
+    display: flex;
+    flex-direction: column;
+}
+.workspace-modal label{
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.workspace-modal .inputs i{
+    border-radius: 5px;
+}
+
+.workspace-modal textarea{
+    padding: 10px;
+    width: 100%;
+    height:100px;
+    max-height: 300px;
+    min-height: 100px;
+    min-width:100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.ws-details{
+    margin: 0 50px 20px 50px;
+    display: flex;
+}
+.copy-icon{
+    margin-top: 65px;
+    margin-left: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--blue-color);
+    transition: all 0.5s;
+}
+.copy-icon:hover{
+    color: var(--dark-yellow-color);
+}
+
+.workspace-modal .inputs{
+    position: relative;
+}
+.loading-container{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    bottom: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-grey-color-opacity);
+}
+
+.loading-container .circle-span{
+    height: 50px;
+    width: 50px;
+    border: 5px solid var(--dark-sucess);
+    border-left: 5px solid var(--light-grey-color-opacity);
 }

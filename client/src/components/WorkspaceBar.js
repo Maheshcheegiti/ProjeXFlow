@@ -7,17 +7,20 @@ import { useUserContext } from "./UserContext";
 import { useWsname } from "./WsnameContext";
 import { useEventTrigger } from "./EventTriggerContext";
 import SetProfileModal from "./SetProfileModal";
+import ShareModal from "./ShareModal";
 
 const WorkspaceBar = () => {
   const [CreateModalOpen, setCreateModalOpen] = useState(false);
-  const [joinModelOpen, setJoinModalOpen] = useState(false);
+  const [joinModalOpen, setJoinModalOpen] = useState(false);
   const [isProfileOpen, setProfileModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const { updateWsname } = useWsname();
   const [activeLink, setActiveLink] = useState(null); // State to track the active link
   const { wsTrigger, signInTrigger } = useEventTrigger();
   const workspaceListRef = useRef(null); // Reference to the workspace list container
   const [isScrollButtonRotated, setIsScrollButtonRotated] = useState(false);
   const { userEmail, userName } = useUserContext();
+  const [wsnameforModal, setwsnameforModal] = useState("");
 
   const openCreateModal = () => {
     setCreateModalOpen(true);
@@ -40,6 +43,14 @@ const WorkspaceBar = () => {
 
   const closeProfileModal = () => {
     setProfileModalOpen(false);
+  };
+  const openShareModal = (wsname) => {
+    setwsnameforModal(wsname);
+    setShareModalOpen(true);
+  };
+
+  const closeShareModal = () => {
+    setShareModalOpen(false);
   };
 
   const [workspaces, setWorkspaces] = useState({
@@ -171,7 +182,15 @@ const WorkspaceBar = () => {
                   handleLinkClick(`created-${wsname}`);
                 }}
               >
-                <li>{wsname}</li>
+                <li>
+                  <span>{wsname}</span>
+                  <i
+                    onClick={() => {
+                      openShareModal(wsname);
+                    }}
+                    className="fa-solid fa-share-from-square"
+                  ></i>
+                </li>
               </Link>
             ))}
           </ul>
@@ -230,7 +249,7 @@ const WorkspaceBar = () => {
         ></CreateModal>
       </div>
       <div>
-        <JoinModal isOpen={joinModelOpen} onClose={closeoJoinModal}></JoinModal>
+        <JoinModal isOpen={joinModalOpen} onClose={closeoJoinModal}></JoinModal>
       </div>
       <div>
         <SetProfileModal
@@ -238,6 +257,13 @@ const WorkspaceBar = () => {
           onClose={closeProfileModal}
           name={userName}
         ></SetProfileModal>
+      </div>
+      <div>
+        <ShareModal
+          isOpen={shareModalOpen}
+          onClose={closeShareModal}
+          wsName={wsnameforModal}
+        ></ShareModal>
       </div>
     </Fragment>
   );

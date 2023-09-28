@@ -57,7 +57,7 @@ exports.getWsStatus = (req, res) => {
     });
 };
 
-exports.shareWs = (req, res) => {
+exports.getWsDetails = (req, res) => {
   const { wsname } = req.body;
   Workspace.findOne({ wsname })
     .then((workspace) => {

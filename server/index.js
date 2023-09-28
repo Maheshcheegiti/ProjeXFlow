@@ -187,12 +187,145 @@ Thank you for using ProjeXFlow!
 Best regards,
 The ProjeXFlow Team
 `,
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Email</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4; margin: 0; padding: 0;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="margin: 20px auto; background-color: #ffffff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                    <tr>
+                        <td style="padding: 20px;">
+                            <p style="font-size: 16px; line-height: 1.5; color: #333;">
+                                Hello,<br><br>
+                                Your OTP is: <strong>${otp}</strong><br><br>
+                                Please use this OTP to reset your password. This OTP is valid for 5 minutes.<br><br>
+                                For security reasons, please follow these guidelines:<br>
+                                <ul>
+                                    <li>Do not share this OTP with anyone.</li>
+                                    <li>Ensure that you are on a secure and trusted website when entering the OTP.</li>
+                                    <li>If you did not request this OTP or suspect any unauthorized access, please contact our support team immediately.</li>
+                                </ul><br>
+                                For further assistance or questions, feel free to reach out to our support team at <a href="mailto:projexflow@gmail.com" style="color: #007bff; text-decoration: none;">projexflow@gmail.com</a>.<br><br>
+                                Thank you for using ProjeXFlow!<br><br>
+                                Best regards,<br>
+                                The ProjeXFlow Team
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+`,
     };
 
     const result = await transport.sendMail(mailOptions);
     return { emailsent: result, otp };
   } catch (error) {
     console.error("Error sending OTP:", error);
+    // Handle other errors here and return appropriate status codes
+    return { error: "Server error", status: 500 };
+  }
+}
+
+async function shareWorkspace(body) {
+  try {
+    const { owner, emails, wsname, wspwd } = body;
+
+    // Construct the email message with workspace credentials
+    const subject = `💌 Workspace Invitation: ${wsname}`;
+    const text = `Hello,
+
+You have been invited to join the workspace "${wsname}" on ProjeXFlow. Here are the details:
+
+Workspace Name: ${wsname}
+Workspace Password: ${wspwd}
+
+Please use these credentials to access the workspace.
+
+For any assistance or questions, feel free to contact the owner at ${owner}.
+
+Thank you for using ProjeXFlow!
+
+Best regards,
+The ProjeXFlow Team
+`;
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace Invitation</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4; margin: 0; padding: 0;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="margin: 20px auto; background-color: #ffffff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                    <tr>
+                        <td style="padding: 20px;">
+                            <h1 style="color: #333;">Workspace Invitation</h1>
+                            <p style="font-size: 16px; line-height: 1.5; color: #333;">
+                                Hello,<br><br>
+                                You have been invited to join the workspace "<strong>${wsname}</strong>" on ProjeXFlow. Here are the details:<br><br>
+                                <strong>Workspace Name:</strong> ${wsname}<br>
+                                <strong>Workspace Password:</strong> ${wspwd}<br><br>
+                                Please use these credentials to access the workspace.<br><br>
+                                For any assistance or questions, feel free to contact the owner at <a href="mailto:${owner}" style="color: #007bff; text-decoration: none;">${owner}</a>.<br><br>
+                                Thank you for using ProjeXFlow!<br><br>
+                                Best regards,<br>
+                                The ProjeXFlow Team
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "projexflow@gmail.com",
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    // Send the email to each recipient in the emails array
+    const promises = emails.map(async (email) => {
+      const mailOptions = {
+        from: "ProjeXFlow 🎯 <projexflow@gmail.com>",
+        to: email,
+        subject: subject,
+        text: text,
+        html: html,
+      };
+
+      const result = await transport.sendMail(mailOptions);
+      return { email: email, emailsent: result };
+    });
+
+    // Wait for all emails to be sent
+    const emailResults = await Promise.all(promises);
+
+    return { emailResults };
+  } catch (error) {
+    console.error("Error sending workspace invitations:", error);
     // Handle other errors here and return appropriate status codes
     return { error: "Server error", status: 500 };
   }
@@ -223,6 +356,25 @@ app.post("/sendotp", async (req, res) => {
     res
       .status(200)
       .json({ message: "OTP sent successfully", emailsent: result.emailsent });
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("/shareworkspace", async (req, res) => {
+  const body = req.body;
+
+  try {
+    const result = await shareWorkspace(body);
+    console.log(result);
+    if (result.error) {
+      // Handle the error and send an appropriate response with status code
+      return res.status(result.status).json({ error: result.error });
+    }
+
+    // If OTP is sent successfully, return a success response
+    res.status(200).json({ message: "Msg sent successfully", res: result });
   } catch (error) {
     console.error("Error sending OTP:", error);
     res.status(500).json({ error: "Server error" });
