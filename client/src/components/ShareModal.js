@@ -107,7 +107,6 @@ const ShareModal = ({ isOpen, onClose, wsName }) => {
     }
 
     if (workspaceDetails) {
-      setIsLoading(true);
       const maxMem = workspaceDetails.maxmem;
       const currentStatus = workspaceDetails.status;
       const emailsArray = teamEmails.split(",").map((email) => email.trim());
@@ -141,7 +140,7 @@ const ShareModal = ({ isOpen, onClose, wsName }) => {
         });
         return;
       }
-
+      setIsLoading(true);
       // Split the input by commas and send the array of email addresses to the API
       fetch("http://localhost:5000/shareworkspace", {
         method: "POST",
