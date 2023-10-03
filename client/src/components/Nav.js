@@ -20,6 +20,7 @@ const Nav = () => {
   const ForgotPasswordRoute = location.pathname === "/forgot_password";
   const AboutRoute = location.pathname === "/aboutus";
   const ContactRoute = location.pathname === "/contact";
+  const TermsRoute = location.pathname === "/termsandconditions";
   const navClass = navEffect ? "nav nav-effect" : "nav";
   const savedTheme = localStorage.getItem("theme");
   const [isDarkMode, setIsDarkMode] = useState(savedTheme === "dark");
@@ -119,7 +120,7 @@ const Nav = () => {
   }, [WorkspaceRoute, WorkspaceChatRoute, userEmail, Navigate, setUserEmail]);
 
   useEffect(() => {
-    if (AboutRoute || ContactRoute) {
+    if (AboutRoute || ContactRoute || TermsRoute) {
       fetch("http://localhost:5000/checkmail", {
         method: "POST",
         headers: {
@@ -145,7 +146,7 @@ const Nav = () => {
           setUserEmail("");
         });
     }
-  }, [AboutRoute, ContactRoute, setUserEmail, userEmail]);
+  }, [AboutRoute, ContactRoute, TermsRoute, setUserEmail, userEmail]);
 
   const handleLogout = () => {
     setUserEmail("");
@@ -186,6 +187,7 @@ const Nav = () => {
             {(WorkspaceRoute ||
               WorkspaceChatRoute ||
               (userEmail.length > 0 && AboutRoute) ||
+              (userEmail.length > 0 && TermsRoute) ||
               (userEmail.length > 0 && ContactRoute)) && (
               <Fragment>
                 <li onClick={handleLogout}>
@@ -195,6 +197,7 @@ const Nav = () => {
               </Fragment>
             )}
             {((userEmail.length === 0 && AboutRoute) ||
+              (userEmail.length === 0 && TermsRoute) ||
               (userEmail.length === 0 && ContactRoute) ||
               ForgotPasswordRoute) && (
               <li>
