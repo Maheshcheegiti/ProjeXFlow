@@ -31,7 +31,7 @@ const Footer = () => {
           <div className="social-icons">
             <ul>
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/profile.php?id=100010724285143"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -40,7 +40,7 @@ const Footer = () => {
                 </li>
               </a>
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/mahesh_aaryan_"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -49,7 +49,7 @@ const Footer = () => {
                 </li>
               </a>
               <a
-                href="https://www.x.com/"
+                href="https://twitter.com/maheshaaryan24"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -58,7 +58,7 @@ const Footer = () => {
                 </li>
               </a>
               <a
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/in/cheegitimahesh"
                 rel="noopener noreferrer"
                 target="_blank"
               >

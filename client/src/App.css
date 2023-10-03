@@ -1176,3 +1176,112 @@ div.profile-details{
     border: 5px solid var(--dark-sucess);
     border-left: 5px solid var(--light-grey-color-opacity);
 }
+
+.about-us-container{
+    color: var(--black-color);
+    padding: 50px 100px;
+    text-align: justify;
+}
+
+.about-us-container h2{
+    color: var(--yellow-color);
+    padding-bottom: 10px;
+}
+.about-us-container p{
+    padding-bottom: 10px;
+}
+.about-us-container ul{
+    list-style: none;
+}
+.about-us-container ul li{
+    padding-bottom: 10px;
+}
+
+.about-us-container .about-me{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-us-container .about-image img{
+    height: 200px;
+    padding-left: 150px;
+    animation: float 1s linear infinite alternate;
+    position: relative;
+}
+
+.contact-container{
+    display: flex;
+}
+
+.contact-left{
+    width: 60%;
+}
+.contact-form-div{
+    width: 40%;
+    padding-left: 50px;
+}
+.contact-form-div form{
+    position: relative;
+}
+.contact-form-div .form-section{
+    margin: 20px 50px;
+}
+
+.contact-container .nrml-label{
+    border-radius: 5px;
+}
+.contact-form-div textarea{
+    width: 265px;
+    max-width: 265px;
+    min-width: 265px;
+    max-height: 200px;
+    min-height: 100px;
+    height: 100px;
+    margin-left: 40px;
+    padding: 10px;
+}
+.contact-container .btn{
+    margin-left: 55%;
+}
+
+.contact-form-div .msg-here{
+    color: var(--dark-yellow-color);
+    position: relative;
+    top: 25px;
+    left: 40px;
+}
+
+.contact-form-div .msg-here i{
+    transform: rotate(180deg);
+}
+
+.contact-left i{
+    color: var(--dark-yellow-color);
+}
+
+.contact-left a{
+    text-decoration: none;
+    color: var(--black-color);
+    transition: all 0.5s;
+}
+
+.contact-left .contact-info a:hover{
+    padding-left: 10px;
+}
+
+.contact-left .social-media-icons a{
+    padding-right: 10px;
+}
+
+.contact-left .social-media-icons a:hover{
+    padding-left: 30px;
+}
+
+.contact-form-div .circle-span{
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    left: 120px;
+    bottom: 35px;
+}

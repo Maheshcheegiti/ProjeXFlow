@@ -11,6 +11,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import WorkspaceEmpty from "./components/WorkspaceEmpty";
 import WorkSpaceFull from "./components/WorkSpaceFull";
 import AboutUs from "./components/AboutUs";
+import Contact from "./components/Contact";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "./components/UserContext";
 import { WsnameProvider } from "./components/WsnameContext";
@@ -53,6 +54,7 @@ const App = () => {
                   ></Route>
                 </Route>
                 <Route exact path="/aboutus" element={<AboutUs />} />
+                <Route exact path="/contact" element={<Contact />} />
               </Routes>
               <Footer></Footer>
               <ToastContainer />

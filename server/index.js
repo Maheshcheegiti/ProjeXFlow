@@ -331,6 +331,63 @@ The ProjeXFlow Team
   }
 }
 
+async function sendMessage(name, mailid, msg) {
+  try {
+    // Create the plain text version of the message
+    const textMessage = `
+      Message from ProjeXFlow Contact Form
+
+      Name: ${name}
+      Email: ${mailid}
+
+      Message:
+      ${msg}
+    `;
+
+    // Create the HTML version of the message
+    const htmlMessage = `
+      <html>
+        <body>
+          <h2>Message from ProjeXFlow Contact Form</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${mailid}</p>
+          <p><strong>Message:</strong></p>
+          <p>${msg}</p>
+        </body>
+      </html>
+    `;
+
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "projexflow@gmail.com",
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: "ProjeXFlow 🎯 <projexflow@gmail.com>",
+      to: "ramahesh024@gmail.com", // Change this to the recipient's email address
+      subject: "Message from ProjeXFlow Contact Form",
+      text: textMessage, // Plain text version
+      html: htmlMessage, // HTML version
+    };
+
+    const result = await transport.sendMail(mailOptions);
+    return { messagesent: result };
+  } catch (error) {
+    console.error("Error sending message:", error);
+    // Handle other errors here and return appropriate status codes
+    return { error: "Server error", status: 500 };
+  }
+}
+
 function generateOTP(length) {
   const digits = "0123456789";
   let OTP = "";
@@ -381,6 +438,28 @@ app.post("/shareworkspace", async (req, res) => {
   }
 });
 
+app.post("/sendmesg", async (req, res) => {
+  const { name, mailid, msg } = req.body;
+
+  try {
+    const result = await sendMessage(name, mailid, msg);
+
+    if (result.error) {
+      // Handle the error and send an appropriate response with status code
+      return res.status(result.status).json({ error: result.error });
+    }
+
+    // If the message is sent successfully, return a success response
+    res.status(200).json({
+      message: "Message sent successfully",
+      messagesent: result.messagesent,
+    });
+  } catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // Schedule a job to remove OTPs older than 5 minutes
 cron.schedule("*/5 * * * *", async () => {
   try {
@@ -394,8 +473,6 @@ cron.schedule("*/5 * * * *", async () => {
     console.error("Error removing expired OTPs:", error);
   }
 });
-
-// Add this endpoint after your existing code
 
 // Endpoint for checking OTP validity
 app.post("/checkotp", async (req, res) => {
