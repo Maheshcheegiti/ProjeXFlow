@@ -439,10 +439,9 @@ app.post("/shareworkspace", async (req, res) => {
 });
 
 app.post("/sendmesg", async (req, res) => {
-  const { name, mailid, msg } = req.body;
-
+  const { name, email, message } = req.body;
   try {
-    const result = await sendMessage(name, mailid, msg);
+    const result = await sendMessage(name, email, message);
 
     if (result.error) {
       // Handle the error and send an appropriate response with status code
