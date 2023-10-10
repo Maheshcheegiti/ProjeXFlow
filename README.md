@@ -1,6 +1,6 @@
 # ProjeXFlow 🚀
 
-![ProjeXFlow Logo](./client/src/images/projexflow.png)
+![ProjeXFlow Logo](./client/public/favicon.ico)
 
 ## Introduction
 
