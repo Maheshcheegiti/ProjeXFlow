@@ -11,6 +11,7 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [isFpwdModalOpen, setFpwdModalOpen] = useState(false);
   const { setUserName, setUserEmail } = useUserContext();
+  const hosturl = process.env.API_URL;
 
   const handleSendClick = async () => {
     setOtpSent(false);
@@ -22,7 +23,7 @@ const ForgotPassword = () => {
       }
       setLoading(true); // Set loading to true when sending the request
 
-      const response = await fetch("http://localhost:5000/sendotp", {
+      const response = await fetch(`${hosturl}/sendotp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +61,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/checkotp", {
+      const response = await fetch(`${hosturl}/checkotp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +72,7 @@ const ForgotPassword = () => {
       if (response.ok) {
         // If OTP is valid, show a success message using toast
         toast.success("OTP is valid. You can proceed to reset your password.");
-        fetch("http://localhost:5000/checkmail", {
+        fetch(`${hosturl}/checkmail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import { useEventTrigger } from "./EventTriggerContext";
 
 const AddModal = ({ isOpen, onClose, details }) => {
   const { teamTrigger, setTeamTrigger } = useEventTrigger();
+  const hosturl = process.env.API_URL;
   const [formData, setFormData] = useState({
     taskname: "",
     taskdes: "",
@@ -41,7 +42,8 @@ const AddModal = ({ isOpen, onClose, details }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/addtask", {
+
+      fetch(`${hosturl}/addtask`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

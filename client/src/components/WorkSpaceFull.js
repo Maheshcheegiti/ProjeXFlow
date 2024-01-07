@@ -36,10 +36,11 @@ const WorkSpaceFull = () => {
   const [isScrollButtonRotatedChats, setIsScrollButtonRotatedChats] =
     useState(true);
   const [isChatScrolledUp, setIsChatScrolledUp] = useState(false);
+  const hosturl = process.env.API_URL;
 
   useEffect(() => {
     // Fetch team member information from the /team API
-    fetch(`http://localhost:5000/team`, {
+    fetch(`${hosturl}/team`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +59,7 @@ const WorkSpaceFull = () => {
         // Handle error as needed
       });
 
-    fetch("http://localhost:5000/gettasks", {
+    fetch(`${hosturl}/gettasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +77,7 @@ const WorkSpaceFull = () => {
         // Handle error as needed
       });
 
-    fetch("http://localhost:5000/getchat", {
+    fetch(`${hosturl}/getchat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +125,7 @@ const WorkSpaceFull = () => {
     event.preventDefault(); // Prevent the form from submitting
 
     // Make a POST request to send the new message
-    fetch("http://localhost:5000/chat", {
+    fetch(`${hosturl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

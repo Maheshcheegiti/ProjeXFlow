@@ -9,6 +9,7 @@ const UpdateLinkedinModal = ({ isOpen, onClose }) => {
   const { userName, userEmail, linkedin, setLinkedin } = useUserContext();
   const { wsTrigger, setWSTrigger, teamTrigger, setTeamTrigger } =
     useEventTrigger();
+  const hosturl = process.env.API_URL;
 
   const [formData, setFormData] = useState({
     linkedin: "",
@@ -42,7 +43,7 @@ const UpdateLinkedinModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/changelinkedin", {
+      fetch(`${hosturl}/changelinkedin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

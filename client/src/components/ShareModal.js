@@ -7,6 +7,7 @@ import ClipboardJS from "clipboard";
 const ShareModal = ({ isOpen, onClose, wsName }) => {
   const { userEmail } = useUserContext();
   const [workspaceDetails, setWorkspaceDetails] = useState(null);
+  const hosturl = process.env.API_URL;
   const workspaceNameRef = useRef(null);
   const workspacePasswordRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -18,16 +19,13 @@ const ShareModal = ({ isOpen, onClose, wsName }) => {
     if (isOpen) {
       const fetchData = async () => {
         try {
-          const response = await fetch(
-            "http://localhost:5000/getworkspacedetails",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ wsname: wsName }),
-            }
-          );
+          const response = await fetch(`${hosturl}/getworkspacedetails`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ wsname: wsName }),
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -142,7 +140,7 @@ const ShareModal = ({ isOpen, onClose, wsName }) => {
       }
       setIsLoading(true);
       // Split the input by commas and send the array of email addresses to the API
-      fetch("http://localhost:5000/shareworkspace", {
+      fetch(`${hosturl}/shareworkspace`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,7 +6,7 @@ import { useUserContext } from "./UserContext";
 const UpdatePasswordModal = ({ isOpen, onClose }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const { userName, userEmail } = useUserContext();
-
+  const hosturl = process.env.API_URL;
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -40,7 +40,7 @@ const UpdatePasswordModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/changepassword", {
+      fetch(`${hosturl}/changepassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

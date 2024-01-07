@@ -7,6 +7,7 @@ import { useEventTrigger } from "./EventTriggerContext";
 const UpdateGithubModal = ({ isOpen, onClose }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const { userName, userEmail, github, setGithub } = useUserContext();
+  const hosturl = process.env.API_URL;
   const { wsTrigger, setWSTrigger, teamTrigger, setTeamTrigger } =
     useEventTrigger();
 
@@ -42,7 +43,7 @@ const UpdateGithubModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/changegithub", {
+      fetch(`${hosturl}/changegithub`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -7,6 +7,7 @@ const SetProfileModal = ({ isOpen, onClose, name, image }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const fileInputRef = React.createRef();
+  const hosturl = process.env.API_URL;
   const { profileTrigger, setSignInTrigger, setProfileTrigger } =
     useEventTrigger();
   const { userEmail } = useUserContext();
@@ -51,7 +52,7 @@ const SetProfileModal = ({ isOpen, onClose, name, image }) => {
       );
       formData.append("mailid", userEmail); // Use "mailid" consistent with your server-side code
 
-      fetch("http://localhost:5000/setprofilepicture", {
+      fetch(`${hosturl}/setprofilepicture`, {
         method: "POST",
         body: formData,
       })

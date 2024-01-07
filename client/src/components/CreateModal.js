@@ -6,6 +6,7 @@ import { useEventTrigger } from "./EventTriggerContext";
 
 const CreateModal = ({ isOpen, onClose }) => {
   const [validationErrors, setValidationErrors] = useState({});
+  const hosturl = process.env.API_URL;
   const { userEmail } = useUserContext();
   const { wsTrigger, setWSTrigger } = useEventTrigger();
 
@@ -49,7 +50,7 @@ const CreateModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/createws", {
+      fetch(`${hosturl}/createws`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

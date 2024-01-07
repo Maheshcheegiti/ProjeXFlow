@@ -11,6 +11,7 @@ const Nav = () => {
   const [isLoading, setIsLoading] = useState(false); // Initialize isLoading as false
   const Navigate = useNavigate();
   const location = useLocation();
+  const hosturl = process.env.API_URL;
   const { userEmail, setUserEmail } = useUserContext();
   const MainRoute = location.pathname === "/";
   const SignupRoute = location.pathname === "/signup";
@@ -63,7 +64,7 @@ const Nav = () => {
   useEffect(() => {
     if (WorkspaceRoute || WorkspaceChatRoute) {
       seIsStopScroll(true);
-      fetch("http://localhost:5000/checkmail", {
+      fetch(`${hosturl}/checkmail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +122,7 @@ const Nav = () => {
 
   useEffect(() => {
     if (AboutRoute || ContactRoute || TermsRoute) {
-      fetch("http://localhost:5000/checkmail", {
+      fetch(`${hosturl}/checkmail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

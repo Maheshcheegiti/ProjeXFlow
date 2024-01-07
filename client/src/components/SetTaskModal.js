@@ -6,6 +6,7 @@ import { useEventTrigger } from "./EventTriggerContext";
 const SetTaskModal = ({ isOpen, onClose, details }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const { taskTrigger, setTaskTrigger } = useEventTrigger();
+  const hosturl = process.env.API_URL;
 
   const [formData, setFormData] = useState({
     taskname: "",
@@ -33,7 +34,7 @@ const SetTaskModal = ({ isOpen, onClose, details }) => {
     }
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/settaskstatus", {
+      fetch(`${hosturl}/settaskstatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

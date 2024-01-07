@@ -18,6 +18,8 @@ const Contact = () => {
       message,
     };
 
+    const hosturl = process.env.API_URL;
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Invalid Email Format");
@@ -37,7 +39,7 @@ const Contact = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/sendmesg", {
+      const response = await fetch(`${hosturl}/sendmesg`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -18,6 +18,7 @@ const UserProfile = () => {
   const [iscpModalOpen, setcpModalOpen] = useState(false);
   const { profileTrigger } = useEventTrigger();
   const containerRef = useRef(null);
+  const hosturl = process.env.API_URL;
 
   const handleProfileClick = () => {
     setIsProfileDetailsOpen(!isProfileDetailsOpen);
@@ -64,7 +65,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     // Make a GET request to fetch the user's profile picture
-    fetch("http://localhost:5000/getprofilepicture", {
+    fetch(`${hosturl}/getprofilepictur`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

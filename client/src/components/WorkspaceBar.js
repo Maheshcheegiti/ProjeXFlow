@@ -21,6 +21,7 @@ const WorkspaceBar = () => {
   const [isScrollButtonRotated, setIsScrollButtonRotated] = useState(false);
   const { userEmail, userName } = useUserContext();
   const [wsnameforModal, setwsnameforModal] = useState("");
+  const hosturl = process.env.API_URL;
 
   const openCreateModal = () => {
     setCreateModalOpen(true);
@@ -124,7 +125,7 @@ const WorkspaceBar = () => {
 
   useEffect(() => {
     // Fetch workspaces from the /getws API
-    fetch("http://localhost:5000/getws", {
+    fetch(`${hosturl}/getws`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

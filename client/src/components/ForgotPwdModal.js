@@ -7,6 +7,7 @@ import { useUserContext } from "./UserContext";
 const ForgotPwdModal = ({ isOpen, onClose }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const { userName, userEmail, setUserEmail } = useUserContext();
+  const hosturl = process.env.API_URL;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -40,7 +41,7 @@ const ForgotPwdModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/newpassword", {
+      fetch(`${hosturl}/newpassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

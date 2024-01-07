@@ -8,6 +8,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { userEmail, setUserEmail, setUserName, setLinkedin, setGithub } =
     useUserContext();
+  const hosturl = process.env.API_URL;
   // State variables to hold validation errors
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -33,7 +34,7 @@ const LoginForm = () => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/login", {
+      fetch(`${hosturl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

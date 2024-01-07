@@ -11,6 +11,7 @@ const JoinModal = ({ isOpen, onClose }) => {
     wspwd: "",
     status: null,
   });
+  const hosturl = process.env.API_URL;
   const [statusValue, setStatusValue] = useState(null);
   const { wsTrigger, setWSTrigger } = useEventTrigger();
 
@@ -28,7 +29,7 @@ const JoinModal = ({ isOpen, onClose }) => {
     const { name, value } = event.target;
     if (name === "wsname") {
       try {
-        const response = await fetch("http://localhost:5000/getwsstatus", {
+        const response = await fetch(`${hosturl}/getwsstatus`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -62,7 +63,7 @@ const JoinModal = ({ isOpen, onClose }) => {
 
     const mailid = userEmail;
     const { wsname, wspwd } = formData;
-    fetch("http://localhost:5000/joinws", {
+    fetch(`${hosturl}/joinws`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

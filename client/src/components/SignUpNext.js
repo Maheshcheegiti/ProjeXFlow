@@ -9,6 +9,7 @@ const SignUpNext = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const { setUserEmail, setUserName, setLinkedin, setGithub } =
     useUserContext();
+  const hosturl = process.env.API_URL;
 
   function signupNextCall(event) {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -45,7 +46,7 @@ const SignUpNext = () => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the next call
-      fetch("http://localhost:5000/checkmail", {
+      fetch(`${hosturl}/checkmail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

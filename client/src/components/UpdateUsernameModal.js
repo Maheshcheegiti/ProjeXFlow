@@ -10,6 +10,8 @@ const UpdateUsernameModal = ({ isOpen, onClose }) => {
   const { wsTrigger, setWSTrigger, teamTrigger, setTeamTrigger } =
     useEventTrigger();
 
+  const hosturl = process.env.API_URL;
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -42,7 +44,7 @@ const UpdateUsernameModal = ({ isOpen, onClose }) => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/changeusername", {
+      fetch(`${hosturl}/changeusername`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

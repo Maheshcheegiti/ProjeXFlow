@@ -12,6 +12,7 @@ const SignupForm = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const { userEmail, userName, linkedin, github } = useUserContext();
   const { setSignInTrigger } = useEventTrigger();
+  const hosturl = process.env.API_URL;
   function signupApiCall(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
@@ -61,7 +62,7 @@ const SignupForm = () => {
 
     if (Object.keys(errors).length === 0) {
       // If no validation errors, make the API call
-      fetch("http://localhost:5000/signup", {
+      fetch(`${hosturl}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
